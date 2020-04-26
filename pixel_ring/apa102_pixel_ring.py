@@ -6,8 +6,8 @@ try:
 except ImportError:
     import Queue as Queue
 
-from .apa102 import APA102
-from .pattern import Echo, GoogleHome
+from apa102 import APA102
+from pattern import Echo, GoogleHome
 
 
 class PixelRing(object):
@@ -84,22 +84,3 @@ class PixelRing(object):
 
         self.dev.show()
 
-
-if __name__ == '__main__':
-    pixel_ring = PixelRing()
-    while True:
-        try:
-            pixel_ring.wakeup()
-            time.sleep(3)
-            pixel_ring.think()
-            time.sleep(3)
-            pixel_ring.speak()
-            time.sleep(6)
-            pixel_ring.off()
-            time.sleep(3)
-        except KeyboardInterrupt:
-            break
-
-
-    pixel_ring.off()
-    time.sleep(1)
