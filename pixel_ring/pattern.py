@@ -142,4 +142,71 @@ class GoogleHome(object):
     def off(self):
         self.show([0] * 4 * 12)
 
+class MyTheme1(object):
+    brightness = 24 * 8
+    # pixels are ints [r, g, b, brightness] * pixels_numbers
 
+    def __init__(self, show, number=12):
+        self.pixels_number = number
+        self.pixels = [0] * 4 * number
+
+        if not callable(show):
+            raise ValueError('show parameter is not callable')
+
+        self.show = show
+        self.stop = False
+
+    def wakeup(self, direction=0):
+        position = int((direction + 15) / (360 / self.pixels_number)) % self.pixels_number
+
+        # start with all off
+        pixels = [0, 0, 0, 0] * self.pixels_number
+        self.show(pixels)
+        
+        # gradually grow the circle
+        i=0
+        t = 0.03
+        while i < self.pixels_number and not self.stop:
+            indx = i*4
+            pixels[indx:indx+4] = [100,0,0,200]
+            if i+1 < self.pixels_number:
+                pixels[indx+4:indx+8] = [100,0,0,50]
+            if i+2 < self.pixels_number:
+                pixels[indx+8:indx+12] = [100,0,0,10]
+            time.sleep(t)
+            self.show(pixels)
+            i+=1
+
+
+    def listen(self):
+        pixels = [0, 0, 0, self.brightness] * self.pixels_number
+
+        self.show(pixels)
+
+    def think(self):
+        half_brightness = int(self.brightness / 2)
+        pixels  = [0, 0, half_brightness, half_brightness, 0, 0, 0, self.brightness] * self.pixels_number
+
+        while not self.stop:
+            self.show(pixels)
+            time.sleep(0.2)
+            pixels = pixels[-4:] + pixels[:-4]
+
+    def speak(self):
+        step = int(self.brightness / 12)
+        position = int(self.brightness / 2)
+        while not self.stop:
+            pixels  = [0, 0, position, self.brightness - position] * self.pixels_number
+            self.show(pixels)
+            time.sleep(0.01)
+            if position <= 0:
+                step = int(self.brightness / 12)
+                time.sleep(0.4)
+            elif position >= int(self.brightness / 2):
+                step = - int(self.brightness / 12)
+                time.sleep(0.4)
+
+            position += step
+
+    def off(self):
+        self.show([0] * 4 * 12)

@@ -7,7 +7,7 @@ except ImportError:
     import Queue as Queue
 
 from apa102 import APA102
-from pattern import Echo, GoogleHome
+from pattern import Echo, GoogleHome, MyTheme1
 
 
 class PixelRing(object):
@@ -16,6 +16,8 @@ class PixelRing(object):
     def __init__(self, pattern='google'):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
+        elif pattern == "mytheme1" or pattern=="1":
+            self.pattern = MyTheme1(show=self.show)
         else:
             self.pattern = GoogleHome(show=self.show)
 
