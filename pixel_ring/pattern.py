@@ -148,6 +148,7 @@ class MyTheme1(object):
 
     def __init__(self, show, number=12):
         self.pixels_number = number
+        self.default_color_block = [0,0,self.brightness//2,self.brightness]
         self.pixels = [0] * 4 * number
 
         if not callable(show):
@@ -165,48 +166,49 @@ class MyTheme1(object):
         
         # gradually grow the circle
         i=0
-        t = 0.03
-        while i < self.pixels_number and not self.stop:
-            indx = i*4
-            pixels[indx:indx+4] = [100,0,0,200]
-            if i+1 < self.pixels_number:
-                pixels[indx+4:indx+8] = [100,0,0,50]
-            if i+2 < self.pixels_number:
-                pixels[indx+8:indx+12] = [100,0,0,10]
+        t = 0.5/ self.pixels_number # seconds for entire wakeup animation / pixels
+        # wrap around the display illuminating the pixels
+        while i < self.pixels_number-1 and not self.stop:
+            indx = ((i+position) % self.pixels_number)*4
+            pixels[indx:indx+4] = self.default_color_block
+            indx = (((i+1)+position) % self.pixels_number)*4
+            pixels[indx:indx+4] = [x//10 for x in self.default_color_block]
+            indx = (((i+2)+position) % self.pixels_number)*4
+            pixels[indx:indx+4] = [x//25 for x in self.default_color_block]
             time.sleep(t)
             self.show(pixels)
             i+=1
-
+        pixels = self.default_color_block * self.pixels_number
+        self.show(pixels)
 
     def listen(self):
-        pixels = [0, 0, 0, self.brightness] * self.pixels_number
+        pixels = self.default_color_block * self.pixels_number
 
         self.show(pixels)
 
     def think(self):
-        half_brightness = int(self.brightness / 2)
-        pixels  = [0, 0, half_brightness, half_brightness, 0, 0, 0, self.brightness] * self.pixels_number
+        pixels  = [0, 0, 0, 0] * (self.pixels_number//2)
+        pixels += self.default_color_block * ((self.pixels_number+1)//2)
 
+        t = 0.5 / self.pixels_number
         while not self.stop:
             self.show(pixels)
-            time.sleep(0.2)
+            time.sleep(t)
             pixels = pixels[-4:] + pixels[:-4]
 
     def speak(self):
         step = int(self.brightness / 12)
         position = int(self.brightness / 2)
+        high, low, step = 10, 1, 1
+        t = (1.1/((high-low)/step))/2
         while not self.stop:
-            pixels  = [0, 0, position, self.brightness - position] * self.pixels_number
-            self.show(pixels)
-            time.sleep(0.01)
-            if position <= 0:
-                step = int(self.brightness / 12)
-                time.sleep(0.4)
-            elif position >= int(self.brightness / 2):
-                step = - int(self.brightness / 12)
-                time.sleep(0.4)
-
-            position += step
-
+            for i in range(low, high, step):
+                pixels = [x//i for x in self.default_color_block] * self.pixels_number
+                self.show(pixels)
+                time.sleep(t)
+            for i in range(high, low, -step):
+                pixels = [x//i for x in self.default_color_block] * self.pixels_number
+                self.show(pixels)
+                time.sleep(t)
     def off(self):
         self.show([0] * 4 * 12)
