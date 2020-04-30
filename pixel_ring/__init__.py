@@ -10,7 +10,7 @@ if not pixel_ring:
     pixel_ring = usb_pixel_ring_v1.find()
 
 if not pixel_ring:
-    pixel_ring = PixelRing()
+    pixel_ring = PixelRing(pattern="1")
 
 
 USAGE = '''
