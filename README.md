@@ -11,6 +11,8 @@ The library is for pixel ring based on APA102, ReSpeaker series pixel ring.
 + ReSpeaker 4 Mic Array or ReSpeaker V2
 
 ## Get started
+Install with `pip install -U -e .`
+
 The main controller is `pixel_ring/apa102_pixel_ring.py` but you shouldn't need to change much there. The color profiles are defined in `pixel_ring/pattern.py` and are easy enough to develop your own.
 
 ## Credits
