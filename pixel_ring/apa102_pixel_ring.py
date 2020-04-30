@@ -13,7 +13,7 @@ from .pattern import Echo, GoogleHome, MyTheme1
 class PixelRing(object):
     PIXELS_N = 12
 
-    def __init__(self, pattern='google'):
+    def __init__(self, pattern='1'):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
         elif pattern == "mytheme1" or pattern=="1":
@@ -39,6 +39,8 @@ class PixelRing(object):
     def change_pattern(self, pattern):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
+        elif pattern == "1" or pattern == "mytheme1":
+            self.pattern = MyTheme1(show=self.show)
         else:
             self.pattern = GoogleHome(show=self.show)
 
