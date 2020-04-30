@@ -1,5 +1,4 @@
-
-import time
+mport time
 import threading
 try:
     import queue as Queue
@@ -13,14 +12,13 @@ from .pattern import Echo, GoogleHome, MyTheme1
 class PixelRing(object):
     PIXELS_N = 12
 
-    def __init__(self, pattern="1"):
+    def __init__(self, pattern='google'):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
-        elif pattern =="google":
+        elif pattern == "google":
             self.pattern = GoogleHome(show=self.show)
         else:
             self.pattern = MyTheme1(show=self.show)
-
         self.dev = APA102(num_led=self.PIXELS_N)
 
         self.queue = Queue.Queue()
@@ -39,10 +37,8 @@ class PixelRing(object):
     def change_pattern(self, pattern):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
-        elif pattern == "google":
-            self.pattern = GoogleHome(show=self.show)
         else:
-            self.pattern = MyTheme1(show=self.show)
+            self.pattern = GoogleHome(show=self.show)
 
     def wakeup(self, direction=0):
         def f():
@@ -88,3 +84,22 @@ class PixelRing(object):
 
         self.dev.show()
 
+
+if __name__ == '__main__':
+    pixel_ring = PixelRing()
+    while True:
+        try:
+            pixel_ring.wakeup()
+            time.sleep(3)
+            pixel_ring.think()
+            time.sleep(3)
+            pixel_ring.speak()
+            time.sleep(6)
+            pixel_ring.off()
+            time.sleep(3)
+        except KeyboardInterrupt:
+            break
+
+
+    pixel_ring.off()
+    time.sleep(1)
