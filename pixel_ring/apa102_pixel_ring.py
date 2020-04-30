@@ -6,7 +6,7 @@ except ImportError:
     import Queue as Queue
 
 from .apa102 import APA102
-from .pattern import Echo, GoogleHome, MyTheme1
+from .pattern import Echo, zGoogleHome, MyTheme1
 
 
 class PixelRing(object):
