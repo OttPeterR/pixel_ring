@@ -166,7 +166,7 @@ class MyTheme1(object):
         
         # gradually grow the circle
         i=0
-        t = 0.5/ self.pixels_number # seconds for entire wakeup animation / pixels
+        t = 0.35/ self.pixels_number # seconds for entire wakeup animation / pixels
         # wrap around the display illuminating the pixels
         while i < self.pixels_number-1 and not self.stop:
             indx = ((i+position) % self.pixels_number)*4
@@ -190,7 +190,7 @@ class MyTheme1(object):
         pixels  = [0, 0, 0, 0] * (self.pixels_number//2)
         pixels += self.default_color_block * ((self.pixels_number+1)//2)
 
-        t = 0.5 / self.pixels_number
+        t = 0.35 / self.pixels_number
         while not self.stop:
             self.show(pixels)
             time.sleep(t)
@@ -200,7 +200,7 @@ class MyTheme1(object):
         step = int(self.brightness / 12)
         position = int(self.brightness / 2)
         high, low, step = 10, 1, 1
-        t = (1.1/((high-low)/step))/2
+        t = (1.0((high-low)/step))/2
         while not self.stop:
             for i in range(low, high, step):
                 pixels = [x//i for x in self.default_color_block] * self.pixels_number
