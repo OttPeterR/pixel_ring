@@ -16,10 +16,10 @@ class PixelRing(object):
     def __init__(self, pattern="1"):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
-        elif pattern == "mytheme1" or pattern=="1":
-            self.pattern = MyTheme1(show=self.show)
-        else:
+        elif pattern =="google":
             self.pattern = GoogleHome(show=self.show)
+        else:
+            self.pattern = MyTheme1(show=self.show)
 
         self.dev = APA102(num_led=self.PIXELS_N)
 
