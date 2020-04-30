@@ -59,7 +59,7 @@ class Echo(object):
     def off(self):
         self.show([0] * 4 * 12)
 
-class zGoogleHome(object):
+class GoogleHome(object):
     def __init__(self, show):
         self.basis = [0] * 4 * 12
         self.basis[0 * 4 + 1] = 8

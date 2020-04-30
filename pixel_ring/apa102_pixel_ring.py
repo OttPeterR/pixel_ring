@@ -6,19 +6,19 @@ except ImportError:
     import Queue as Queue
 
 from .apa102 import APA102
-from .pattern import Echo, zGoogleHome, MyTheme1
+from .pattern import Echo, GoogleHome, MyTheme1
 
 
 class PixelRing(object):
     PIXELS_N = 12
 
     def __init__(self, pattern="unspecified"):
-        #if pattern == 'echo':
-        #    self.pattern = Echo(show=self.show)
-        #elif pattern == "google":
-            s#elf.pattern = GoogleHome(show=self.show)
-        #else:
-        self.pattern = MyTheme1(show=self.show)
+        if pattern == 'echo':
+            self.pattern = Echo(show=self.show)
+        elif pattern == "google":
+            self.pattern = GoogleHome(show=self.show)
+        else:
+            self.pattern = MyTheme1(show=self.show)
         self.dev = APA102(num_led=self.PIXELS_N)
 
         self.queue = Queue.Queue()
@@ -35,12 +35,12 @@ class PixelRing(object):
             self.dev.global_brightness = int(0b11111 * brightness / 100)
 
     def change_pattern(self, pattern):
-        #if pattern == 'echo':
-        #    self.pattern = Echo(show=self.show)
-        #elif pattern == "google":
-        #    self.pattern = GoogleHome(show=self.show)
-        #else:
-        self.pattern = MyTheme1(show=self.show)
+        if pattern == 'echo':
+            self.pattern = Echo(show=self.show)
+        elif pattern == "google":
+            self.pattern = GoogleHome(show=self.show)
+        else:
+            self.pattern = MyTheme1(show=self.show)
 
     def wakeup(self, direction=0):
         def f():
