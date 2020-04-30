@@ -12,7 +12,7 @@ from .pattern import Echo, GoogleHome, MyTheme1
 class PixelRing(object):
     PIXELS_N = 12
 
-    def __init__(self, pattern='google'):
+    def __init__(self, pattern="unspecified"):
         if pattern == 'echo':
             self.pattern = Echo(show=self.show)
         elif pattern == "google":
