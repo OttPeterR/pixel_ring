@@ -35,10 +35,12 @@ class PixelRing(object):
             self.dev.global_brightness = int(0b11111 * brightness / 100)
 
     def change_pattern(self, pattern):
-        if pattern == 'echo':
-            self.pattern = Echo(show=self.show)
-        else:
-            self.pattern = GoogleHome(show=self.show)
+        #if pattern == 'echo':
+        #    self.pattern = Echo(show=self.show)
+        #elif pattern == "google":
+        #    self.pattern = GoogleHome(show=self.show)
+        #else:
+        self.pattern = MyTheme1(show=self.show)
 
     def wakeup(self, direction=0):
         def f():
